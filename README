@@ -1,1 +1,8 @@
 ###### A SIMPLE CARD GAME ######
+
+How to play:
+   draw ... ziehe eine karte
+   shuffle ... mische das kartendeck
+   hand ... zeige die karten auf deiner hand
+   play ... spiele eine karte von deiner hand
+   quit ... beende das spiel
