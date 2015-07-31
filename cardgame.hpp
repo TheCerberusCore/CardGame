@@ -17,7 +17,6 @@ public:
 	}
 };
 
-enum class KartenAttribut { Farbe, Wert };
 enum class Farbe { Herz, Karo, Kreuz, Pik };
 
 struct Wert {
