@@ -31,10 +31,10 @@ struct Wert {
 
 inline std::ostream& operator<<(std::ostream& o, Farbe& f) {
 	switch (f) {
-	case Farbe::Herz:		o << "Herz"; break;
-	case Farbe::Karo:		o << "Karo"; break;
-	case Farbe::Kreuz:	o << "Kreuz"; break;
-	case Farbe::Pik:		o << "Pik";
+	case Farbe::Herz: o << "Herz"; break;
+	case Farbe::Karo: o << "Karo"; break;
+	case Farbe::Kreuz: o << "Kreuz"; break;
+	case Farbe::Pik: o << "Pik";
 	} return o;
 }
 
