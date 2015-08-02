@@ -28,7 +28,7 @@ struct Wert {
 	bool operator==(const Wert& w) const { return this->value == w.value; }
 };
 
-inline std::ostream& operator<<(std::ostream& o, Farbe& f) {
+inline std::ostream& operator<<(std::ostream& o, const Farbe& f) {
 	switch (f) {
 	case Farbe::Herz: o << "Herz"; break;
 	case Farbe::Karo: o << "Karo"; break;
@@ -37,7 +37,7 @@ inline std::ostream& operator<<(std::ostream& o, Farbe& f) {
 	} return o;
 }
 
-inline std::ostream& operator<<(std::ostream& o, Wert& w) {
+inline std::ostream& operator<<(std::ostream& o, const Wert& w) {
 	switch (w.value) {
 	case Wert::Ass: o << "Ass"; break;
 	case Wert::Koenig: o << "Koenig"; break;
@@ -71,12 +71,12 @@ inline std::istream& operator>>(std::istream& i, Wert& w) {
 typedef std::tuple<Farbe, Wert> Karte;
 typedef std::set<Karte> Hand;
 
-inline std::ostream& operator<<(std::ostream& o, Karte& karte) {
+inline std::ostream& operator<<(std::ostream& o, const Karte& karte) {
 	return o << std::get<0>(karte) << " " << std::get<1>(karte);
 }
 
-inline std::ostream& operator<<(std::ostream& o, Hand& hand) {
-	for (auto i : hand) o << i << std::endl;
+inline std::ostream& operator<<(std::ostream& o, const Hand& hand) {
+   for(Hand::iterator it = hand.begin(); it != hand.end(); ++it) o << *it << std::endl;
 	return o;
 }
 
@@ -98,7 +98,8 @@ Deck<MIN, MAX>::Deck() {
 		karten.push_back(Karte(Farbe::Kreuz, i));
 		karten.push_back(Karte(Farbe::Pik, i));
 	}
-	for (auto i : karten) deck.push(i); 
+   for(std::vector<Karte>::iterator it = karten.begin(); it != karten.end(); ++it)
+      deck.push(*it); 
 }
 
 template <size_t MIN, size_t MAX>

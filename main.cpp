@@ -10,6 +10,8 @@
 
 #include <string>
 #include <sstream>
+#include <chrono>
+using namespace std::chrono;
 
 class Command {
 	std::string cmd, cmdline;
@@ -20,15 +22,26 @@ public:
 	bool operator==(const std::string& str) { return (cmd == str); }
 };
 
+template <class time_type>
+class Timer {
+	time_point<system_clock, time_type> begin, end;
+public:
+	void start()	{ begin = time_point_cast<time_type>(system_clock::now()); }
+	void stop()		{ end = time_point_cast<time_type>(system_clock::now()); }
+	__int64 duration() { return (end - begin).count(); }
+};
+
 int main(int argc, const char* argv[]) {
 	Deck<Wert::Ass, Wert::Koenig> deck;
 	Hand hand;
 	deck.shuffle();
+	Timer<microseconds> t;
 
 	while (true) {
 		Command cmd;
 		std::cout << "> ";
 		if (cmd.getcmd()) {
+			t.start();
 			if (cmd == "quit") break;
 			else if (cmd == "draw") { Karte draw = deck.draw(); hand.insert(draw); std::cout << draw << std::endl; }
 			else if (cmd == "shuffle") deck.shuffle();
@@ -39,11 +52,15 @@ int main(int argc, const char* argv[]) {
 				Wert wert;
 				if (cmd.getnext(farbe) && cmd.getnext(wert)) {
 					Karte karte(farbe, wert);
-					hand.erase(karte);
+					Hand::iterator it;
+					for (it = hand.begin(); it != hand.end(); ++it) if (*it == karte) break;
+					hand.erase(it);
 					std::cout << karte << std::endl;
 				}
 			}
 			else std::cout << "unknown command!\n";
+			t.stop();
+			std::cout << "\ttime: " << t.duration() << " microseconds" << std::endl;
 		}
 	}
 
